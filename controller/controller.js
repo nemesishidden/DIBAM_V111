@@ -47,26 +47,26 @@ var app = {
 
     scan: function() {
         if(window.usuario.evento.eventoActivo){
-            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-            scanner.scan(
-                function (result) {
-                    document.getElementById("precioReferencia").innerHTML = 0;
-                    $('#formLibroNuevo')[0].reset();
-                    if(result.text.toString().trim().length >=1){
-                        app.buscarLibro(result.text);
-                    }else{
-                        $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
-                    }                
-                }, 
-                function (error) {
-                    $('#popupDialog').find('h1').text('Advertencia');
-                    $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
-                    $('#popupDialog').popup().popup('open');
-                }
-            );
-            // document.getElementById("precioReferencia").innerHTML = 0;
-            // $('#formLibroNuevo')[0].reset();
-            // app.buscarLibro(9789568410575);
+            // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            // scanner.scan(
+            //     function (result) {
+            //         document.getElementById("precioReferencia").innerHTML = 0;
+            //         $('#formLibroNuevo')[0].reset();
+            //         if(result.text.toString().trim().length >=1){
+            //             app.buscarLibro(result.text);
+            //         }else{
+            //             $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
+            //         }                
+            //     }, 
+            //     function (error) {
+            //         $('#popupDialog').find('h1').text('Advertencia');
+            //         $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
+            //         $('#popupDialog').popup().popup('open');
+            //     }
+            // );
+            document.getElementById("precioReferencia").innerHTML = 0;
+            $('#formLibroNuevo')[0].reset();
+            app.buscarLibro(9789568410575);
         }else{
             $('#popupDialog').find('h1').text('Advertencia');
             $('#popupDialog').find('h3').text('No hay ningún evento activo para su biblioteca.');
@@ -97,7 +97,6 @@ var app = {
                     $('#popupDialog').popup().popup('open');
                     //No se pudo establecer conexión con el servidor central, por favor, inténtelo en unos minutos más.
                 } else {
-                    alert(t);
                     $('#popupDialog').find('h1').text(t);
                     $('#popupDialog').find('h3').text('No se pudo establecer conexión con el servidor central, por favor, inténtelo en unos minutos más.');
                     $('#popupDialog').popup().popup('open');
@@ -215,25 +214,38 @@ var app = {
 
     actualizaTotal: function(cantidad, idElemento, idTotal){
         var cantidadLibros;
+        var actualizaPrecio;
+        var actualizaCantidad;
         var valor = $('#'+idElemento).val();
         isNaN(parseInt(cantidad)) ? cantidadLibros = parseInt($('#'+cantidad).val()) : cantidadLibros = parseInt(cantidad);
-        if(valor >= 300001){
-            // valor.val(1);
+        if(valor >= 300001 && (idElemento == 'precioReferencia' || idElemento == 'precioReferenciaE')){
             console.log('valor muy alto');
-        //     $('#popupDialog').find('h1').text('Advertencia');
-        //     $('#popupDialog').find('h3').text('Solo se permite un precio hasta $300.000.');
-        //     $('#popupDialog').popup().popup('open');
-        //     console.log('valor muy alto');
+            actualizaPrecio = false; 
+            idElemento == 'precioReferencia' ? $('#precioReferencia').val(1): $('#precioReferenciaE').val(1);           
+            $('#popupDialog').find('h1').text('Advertencia');
+            $('#popupDialog').find('h3').text('Solo se permite un precio hasta $300.000.');            
+        }else{
+            actualizaPrecio = true;
         }
         if(cantidadLibros >= 201){
             console.log('cantidad muy alto');
-            // $('#popupDialog').find('h1').text('Advertencia');
-            // $('#popupDialog').find('h3').text('solo se permite un máximo de 200 ejemplares.');
-            // $('#popupDialog').popup().popup('open');            
+            actualizaCantidad = false;
+            idElemento == 'precioReferencia' ? $('#cantidad').val(1): $('#cantidadE').val(1);
+            $('#popupDialog').find('h1').text('Advertencia');
+            $('#popupDialog').find('h3').text('solo se permite un máximo de 200 ejemplares.');            
+        }else{
+            actualizaCantidad = true;
         }
-        var total = parseInt(valor)*cantidadLibros;
-        total = app.formatValores(total);
-        $('#'+idTotal).text(total!= 'NaN'?total:0);     
+
+        if(actualizaPrecio && actualizaCantidad){
+            var total = parseInt(valor)*cantidadLibros;
+            total = app.formatValores(total);
+            $('#'+idTotal).text(total!= 'NaN'?total:0); 
+        }else{
+            $('#'+idTotal).text('0');
+            $('#popupDialog').popup().popup('open');
+        }
+    
     },
 
     irEvento: function(eId){
@@ -252,7 +264,7 @@ var app = {
                 $btnVerLibros.attr('data-role', 'button').attr('data-inline', 'true').attr('id', 'btnVerLibros').attr('data-icon', 'bars');
                 $btnVerLibros.html('Ver Libros');
                 $center.append($btnVerLibros);
-                $btnVerLibros.attr('onClick', 'app.irVerLibros('+e.EventoId+')');
+                $btnVerLibros.attr('onClick', 'app.irVerLibros('+e.EventoId+',"'+e.Nombre+'","'+e.FechaEnvioSolicitud.toString()+'")');
                 $('#tablaSolPorEnviar').append($tabla).trigger('create');
                 $('#tablaSolPorEnviar').append($center).trigger('create');
             }
@@ -271,8 +283,9 @@ var app = {
 
     },
 
-    irVerLibros: function(idEvento){
-        console.log(idEvento);
+    irVerLibros: function(idEvento, nombreEvento, fechaEvento){
+        $('#tituloEvento').text(nombreEvento);
+        $('#fechaEvento').text(fechaEvento);
         $.mobile.showPageLoadingMsg( 'a', "Cargando...", false );
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonSolicitudDetalle.asp',

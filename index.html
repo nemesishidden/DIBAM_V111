@@ -96,10 +96,10 @@
                     <input type="text" name="autor" id="autor" value="" maxlength="80" /><br />
                     
                     <label for="precioReferencia">Precio por ejemplar (en pesos):</label>
-                    <input type="number" name="precioReferencia" id="precioReferencia" value="" min="0" onchange="app.actualizaTotal('cantidad', 'precioReferencia', 'totalPresupuesto')"/><br />
+                    <input type="number" name="precioReferencia" id="precioReferencia" value="1" min="1" max="300000"onchange="app.actualizaTotal('cantidad', 'precioReferencia', 'totalPresupuesto')"/><br />
                     
                     <label for="cantidad">N&uacute;mero de ejemplares a solicitar:</label>
-                    <input type="number" name="cantidad" id="cantidad" value="1" min="0" max="200" onchange="app.actualizaTotal(this.value, 'precioReferencia', 'totalPresupuesto')" /><br />
+                    <input type="number" name="cantidad" id="cantidad" value="1" min="1" max="200" onchange="app.actualizaTotal(this.value, 'precioReferencia', 'totalPresupuesto')" /><br />
                                        
                     <label style="float:right;">Precio total (en pesos): <span id="totalPresupuesto"></span></label><br /><br />
 
@@ -199,6 +199,7 @@
             <div data-role="content" style="padding: 0px;">   
                 <!-- <div class="divResumen" ></div> -->      
                 <div>
+                    <center><h2><span id="tituloEvento"></span></h2><br /><h3 style="margin-top: -30px;"><span id="fechaEvento"></span></h3></center>
                     <ol id="librosSolicitudesEnviadas" data-role="listview" read-only="true" data-inset="true" style="margin: 40px 15px 0px 15px;"></ol>
                 </div>
             </div>
@@ -232,7 +233,7 @@
                     <input type="text" name="autorE" id="autorE" value="" maxlength="80" /><br />
                     
                     <label for="precioReferenciaE">Precio por ejemplar (en pesos):</label>
-                    <input type="number" name="precioReferenciaE" id="precioReferenciaE" value="" min="1" onchange="app.actualizaTotal('cantidadE', 'precioReferenciaE', 'totalPresupuestoE')"  /><br />
+                    <input type="number" name="precioReferenciaE" id="precioReferenciaE" value="1" min="1" onchange="app.actualizaTotal('cantidadE', 'precioReferenciaE', 'totalPresupuestoE')"  /><br />
                     
                     <label for="cantidadE">N&uacute;mero de ejemplares a solicitar:</label>
                     <input type="number" name="cantidadE" id="cantidadE" value="1" min="1" max="200" onchange="app.actualizaTotal(this.value, 'precioReferenciaE', 'totalPresupuestoE')" /><br />
