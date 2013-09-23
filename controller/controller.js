@@ -433,10 +433,34 @@ var app = {
                 cantidad: document.getElementById("cantidad").value,
                 autor: document.getElementById("autor").value
             };
+            // window.db.transaction(function(tx){
+            //     tx.executeSql('select * from Presupuestos where idPresupuesto='+window.usuario.evento.id+' and idUsuario='+window.usuario.id, [], function(tx, results){
+            //         var resultado;
+            //         if(results.rows.length != 0){
+            //             var len = results.rows.length;
+                        
+            //             console.log('ya existe');
+            //             for (var i=0; i<len; i++){
+            //                 resultado = results.rows.item(i);
+            //             }                        
+            //         }
+            //         app.reciveData(resultado);
+            //     }, function(tx){
+            //         console.log('error');
+            //     });
+            // },function(r){
+            //     console.log(r);
+            // },function(r){
+            //     console.log(r);
+            // });
             window.db.transaction(function(tx) {
                 baseDatos.verificarLibro(tx,libro, window.usuario);
             }, baseDatos.errorGuardarLibro, baseDatos.successGuardarLibro);
         }
+    },
+    reciveData: function(valores){
+        console.log(valores);
+        
     },
 
     eliminarSolicitudes: function(){
