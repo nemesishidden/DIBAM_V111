@@ -175,6 +175,7 @@ var app = {
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonSolicitudesEnviadas.asp',
             type: 'POST',
+            timeout: 5000,
             dataType: 'json',
             data: {
                 argUsuarioId: window.usuario.id
@@ -290,6 +291,7 @@ var app = {
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonSolicitudDetalle.asp',
             type: 'POST',
+            timeout: 5000,
             dataType: 'json',
             data: {
                argUsuarioId: window.usuario.id,
@@ -329,6 +331,7 @@ var app = {
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonLibro.asp',
             type: 'POST',
+            timeout: 5000,
             dataType: 'json',
             data: {
                argISBN: isbn
@@ -367,6 +370,7 @@ var app = {
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonLibro.asp',
             type: 'POST',
+            timeout: 5000,
             dataType: 'json',
             data: {
                argISBN: codigoIsbn
@@ -460,7 +464,7 @@ var app = {
     },
     reciveData: function(valores){
         console.log(valores);
-        
+
     },
 
     eliminarSolicitudes: function(){
@@ -561,6 +565,7 @@ var app = {
         $.ajax({
             url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonRecibeSolicitud.asp',
             type: 'POST',
+            timeout: 5000,
             dataType: 'json',
             data: {
                argJSON: JSON.stringify(solicitud)
@@ -644,6 +649,7 @@ var app = {
             $.ajax({
                 url: 'http://dibam-sel.opensoft.cl/OpenSEL/json/jsonContactenos.asp',
                 type: 'POST',
+                timeout: 5000,
                 dataType: 'json',
                 data: {
                    argUsuarioId: window.usuario.id,
