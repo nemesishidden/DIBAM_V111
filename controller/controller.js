@@ -193,7 +193,7 @@ var app = {
                     if(len >= 1){
                         data.model.forEach(function(e){
                             var $elemento = $('<li></li>'); 
-                            $elemento.html('<a href="" onClick="app.irEvento('+e.EventoId+') "id="evento-'+e.EventoId+'">'+e.Nombre+'</a>');
+                            $elemento.html('<a href="" onClick="app.irEvento('+e.EventoId+') "id="evento-'+e.EventoId+'">'+e.Nombre+'<br />'+e.FechaEnvioSolicitud+'</a>');
                             $ulLista.append($elemento).trigger('create');
                         });
                     }
@@ -464,9 +464,6 @@ var app = {
         window.db.transaction(function(tx) {
             baseDatos.eliminarLibro(tx, isbn, window.usuario);
         }, baseDatos.errorUpdateLibro, function(tx){
-            $('#popupDialog').find('h1').text('Advertencia');
-            $('#popupDialog').find('h3').text('El libro ha sido eliminado con exito.');
-            $('#popupDialog').popup().popup('open');
             window.db.transaction(function(tx) {
                 baseDatos.updatePresupuestoFinal(tx, window.usuario);
             }, function(tx){
@@ -536,16 +533,16 @@ var app = {
                 if(data.success){
                     window.usuario.evento.eventoActivo = false;
                     app.sincronizaPresupuesto();
+                    $.mobile.changePage( '#inicio', {transition: "slide"});
                     $('#popupDialog').find('h1').text('Advertencia');
                     $('#popupDialog').find('h3').text('Los libros enviados han sido recibidos correctamente, su solicitud será procesada por el encargado correspondiente. \nGracias.');
                     $('#popupDialog').popup().popup('open');
-                    $.mobile.changePage( '#inicio', {transition: "slide"});
                 }else{
                     $.mobile.hidePageLoadingMsg();
+                    $.mobile.changePage( '#inicio', {transition: "slide"});
                     $('#popupDialog').find('h1').text('Advertencia');
                     $('#popupDialog').find('h3').text(data.model.error);
-                    $('#popupDialog').popup().popup('open');
-                    $.mobile.changePage( '#inicio', {transition: "slide"});
+                    $('#popupDialog').popup().popup('open');                    
                 }
             }
         });
@@ -567,13 +564,10 @@ var app = {
             valor: $('#precioReferenciaE:input').val(),
             cantidad: $('#cantidadE:input').val()
         };
-
         window.db.transaction(function(tx) {
             baseDatos.updateLibro(tx, libro);
-        }, baseDatos.errorUpdateLibro, function(tx){
-            $('#popupDialog').find('h1').text('Advertencia');
-            $('#popupDialog').find('h3').text('El libro ha sido modificado con exito.');
-            $('#popupDialog').popup().popup('open');
+        }, baseDatos.errorUpdateLibro, function(tx){   
+            console.log('El libro ha sido modificado con éxito.');
             window.db.transaction(function(tx) {
                 baseDatos.updatePresupuestoFinal(tx, window.usuario);
             }, function(tx){
@@ -621,17 +615,19 @@ var app = {
                 error : function (){ document.title='error'; }, 
                 success: function (data) {                
                     if(data.success){
-                        $('#popupDialog').find('h1').text('Advertencia');
-                        $('#popupDialog').find('h3').text(data.model.mensaje);
-                        $('#popupDialog').popup().popup('open');
+                        $.mobile.hidePageLoadingMsg();
                         $.mobile.changePage( '#inicio', {transition: "slide"});
+                        $('#popupDialog').find('h1').text('Advertencia');
+                        $('#popupDialog').find('h3').text('Su mensaje ha sido enviado exitosamente. El administrador se comunicará con usted para atenderlo.');
+                        //$('#popupDialog').find('h3').text(data.model.mensaje);
+                        $('#popupDialog').popup().popup('open');                        
                         $('#mensajeContacto').val('');
                     }else{
                         $.mobile.hidePageLoadingMsg();
+                        $.mobile.changePage( '#inicio', {transition: "slide"});
                         $('#popupDialog').find('h1').text('Advertencia');
                         $('#popupDialog').find('h3').text(data.model.mensaje);
-                        $('#popupDialog').popup().popup('open');
-                        $.mobile.changePage( '#inicio', {transition: "slide"});
+                        $('#popupDialog').popup().popup('open');                        
                         $('#mensajeContacto').val('');
                     }
                 }
