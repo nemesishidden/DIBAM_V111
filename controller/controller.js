@@ -47,26 +47,26 @@ var app = {
 
     scan: function() {
         if(window.usuario.evento.eventoActivo){
-            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-            scanner.scan(
-                function (result) {
-                    document.getElementById("precioReferencia").innerHTML = 0;
-                    $('#formLibroNuevo')[0].reset();
-                    if(result.text.toString().trim().length >=1){
-                        app.buscarLibro(result.text);
-                    }else{
-                        $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
-                    }                
-                }, 
-                function (error) {
-                    $('#popupDialog').find('h1').text('Advertencia');
-                    $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
-                    $('#popupDialog').popup().popup('open');
-                }
-            );
-            // document.getElementById("precioReferencia").innerHTML = 0;
-            // $('#formLibroNuevo')[0].reset();
-            // app.buscarLibro(9789568410575);
+            // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            // scanner.scan(
+            //     function (result) {
+            //         document.getElementById("precioReferencia").innerHTML = 0;
+            //         $('#formLibroNuevo')[0].reset();
+            //         if(result.text.toString().trim().length >=1){
+            //             app.buscarLibro(result.text);
+            //         }else{
+            //             $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
+            //         }                
+            //     }, 
+            //     function (error) {
+            //         $('#popupDialog').find('h1').text('Advertencia');
+            //         $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
+            //         $('#popupDialog').popup().popup('open');
+            //     }
+            // );
+            document.getElementById("precioReferencia").innerHTML = 0;
+            $('#formLibroNuevo')[0].reset();
+            app.buscarLibro(9789568410575);
         }else{
             $('#popupDialog').find('h1').text('Advertencia');
             $('#popupDialog').find('h3').text('No hay ningún evento activo para su biblioteca.');
@@ -437,33 +437,48 @@ var app = {
                 cantidad: document.getElementById("cantidad").value,
                 autor: document.getElementById("autor").value
             };
-            // window.db.transaction(function(tx){
-            //     tx.executeSql('select * from Presupuestos where idPresupuesto='+window.usuario.evento.id+' and idUsuario='+window.usuario.id, [], function(tx, results){
-            //         var resultado;
-            //         if(results.rows.length != 0){
-            //             var len = results.rows.length;
+            window.db.transaction(function(tx){
+                tx.executeSql('select * from Presupuestos where idPresupuesto='+window.usuario.evento.id+' and idUsuario='+window.usuario.id, [], function(tx, results){
+                    var resultado;
+                    if(results.rows.length != 0){
+                        var len = results.rows.length;
                         
-            //             console.log('ya existe');
-            //             for (var i=0; i<len; i++){
-            //                 resultado = results.rows.item(i);
-            //             }                        
-            //         }
-            //         app.reciveData(resultado);
-            //     }, function(tx){
-            //         console.log('error');
-            //     });
-            // },function(r){
-            //     console.log(r);
-            // },function(r){
-            //     console.log(r);
-            // });
+                        console.log('ya existe');
+                        for (var i=0; i<len; i++){
+                            resultado = results.rows.item(i);
+                        }                        
+                    }
+                    app.reciveData(resultado, libro);
+                }, function(tx){
+                    console.log('error');
+                });
+            },function(r){
+                console.log(r);
+            },function(r){
+                console.log(r);
+            });
+            // window.db.transaction(function(tx) {
+            //     baseDatos.verificarLibro(tx,libro, window.usuario);
+            // }, baseDatos.errorGuardarLibro, baseDatos.successGuardarLibro);
+        }
+    },
+    reciveData: function(valores, libro){
+        console.log(valores);
+        console.log(libro);
+        var a = parseInt(libro.valor_referencia, 10);
+        var b = parseInt(libro.cantidad, 10);
+        var z = a*b;
+        var x = valores.disponiblePresupuesto - z;
+        console.log(x);
+        if(x >= -1){
             window.db.transaction(function(tx) {
                 baseDatos.verificarLibro(tx,libro, window.usuario);
             }, baseDatos.errorGuardarLibro, baseDatos.successGuardarLibro);
+        }else{
+            $('#popupDialog').find('h1').text('Advertencia');
+            $('#popupDialog').find('h3').text('El monto excede al que usted tiene disponible.');
+            $('#popupDialog').popup().popup('open');
         }
-    },
-    reciveData: function(valores){
-        console.log(valores);
 
     },
 
