@@ -258,8 +258,8 @@ var app = {
                 $tabla.find('tbody').remove('tbody');
                 $tabla.find('thead').remove('thead');
                 $('#tablaSolPorEnviar').find('#btnVerLibros').remove('#btnVerLibros');
-                $tabla.append('<thead>').children('thead').append('<tr />').children('tr').append('<th>Evento:</th><th>Monto Total:</th><th>Fecha env&iacute;o:</th><th>Utilizado:</th>');
-                $tabla.append('<tbody>').children('tbody').append('<tr />').children('tr').append('<td>'+e.Nombre+'</td><td>$ '+app.formatValores(e.totalPresupuesto)+'</td><td>'+e.FechaEnvioSolicitud.toString()+'</td><td>$ '+app.formatValores(e.PresupuestoUtilizado)+'</td>');
+                $tabla.append('<thead>').children('thead').append('<tr />').children('tr').append('<th>Evento:</th><th>Monto Total:</th><th>Fecha env&iacute;o:</th><th>Utilizado:</th><th>Estado:</th>');
+                $tabla.append('<tbody>').children('tbody').append('<tr />').children('tr').append('<td>'+e.Nombre+'</td><td>$ '+app.formatValores(e.totalPresupuesto)+'</td><td>'+e.FechaEnvioSolicitud.toString()+'</td><td>$ '+app.formatValores(e.PresupuestoUtilizado)+'</td><td> '+ (e.Resumen != undefined ? e.Resumen: 'No Informado') +'</td>');
                 var $center = $('<center></center>');
                 var $btnVerLibros = $('<a></a>');
                 $btnVerLibros.attr('data-role', 'button').attr('data-inline', 'true').attr('id', 'btnVerLibros').attr('data-icon', 'bars');
