@@ -13,6 +13,9 @@
         Juan Pablo Rodriguez
     </author>
 
+    <gap:platform name="ios" />
+    <gap:platform name="android" />
+
     <gap:plugin name="com.phonegap.plugins.barcodescanner" />
     <!--
     <gap:plugin name="ChildBrowser"/>
@@ -28,6 +31,7 @@
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="true" />
     <preference name="webviewbounce"    value="true" />
+    <preference name="android-minSdkVersion" value="14" />
 
     <icon src="res/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
     <icon src="res/icon/android/icon-48-mdpi.png"   gap:platform="android"    gap:density="mdpi" />
@@ -47,4 +51,13 @@
     <gap:splash src="res/screen/ios/screen-iphone-portrait-2x.png" gap:platform="ios"     width="640" height="960" />
     <gap:splash src="res/screen/ios/screen-ipad-portrait.png"      gap:platform="ios"     width="768" height="1024" />
     <gap:splash src="res/screen/ios/screen-ipad-landscape.png"     gap:platform="ios"     width="1024" height="768" />
+
+    <feature name="http://api.phonegap.com/1.0/battery"/>
+    <feature name="http://api.phonegap.com/1.0/camera"/>
+    <feature name="http://api.phonegap.com/1.0/contacts"/>
+    <feature name="http://api.phonegap.com/1.0/file"/>
+    <feature name="http://api.phonegap.com/1.0/geolocation"/>
+    <feature name="http://api.phonegap.com/1.0/media"/>
+    <feature name="http://api.phonegap.com/1.0/network"/>
+    <feature name="http://api.phonegap.com/1.0/notification"/>
 </widget>
