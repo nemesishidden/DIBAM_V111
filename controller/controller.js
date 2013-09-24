@@ -535,7 +535,7 @@ var app = {
 
     confirmarEnvioSolicitud: function(){
         $('#confirm-dialog').find('h1').text('Advertencia');
-        $('#confirm-dialog').find('h3').text('El libro ha sido eliminado con exito.');
+        $('#confirm-dialog').find('h3').text('¿Esta seguro que desea enviar la solicitud?.');
         $('#confirm-dialog').popup().popup('open'); 
     },
 
