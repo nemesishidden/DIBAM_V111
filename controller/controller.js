@@ -218,7 +218,7 @@ var app = {
         var actualizaPrecio;
         var actualizaCantidad;
         var valor = $('#'+idElemento).val();
-        isNaN(parseInt(cantidad)) ? cantidadLibros = parseInt($('#'+cantidad).val()) : cantidadLibros = parseInt(cantidad);
+        isNaN(parseInt(cantidad, 10)) ? cantidadLibros = parseInt($('#'+cantidad).val(), 10) : cantidadLibros = parseInt(cantidad, 10);
         if(valor >= 300001 && (idElemento == 'precioReferencia' || idElemento == 'precioReferenciaE')){
             console.log('valor muy alto');
             actualizaPrecio = false; 
@@ -239,7 +239,7 @@ var app = {
         }
 
         if(actualizaPrecio && actualizaCantidad){
-            var total = parseInt(valor)*cantidadLibros;
+            var total = parseInt(valor, 10)*cantidadLibros;
             total = app.formatValores(total);
             $('#'+idTotal).text(total!= 'NaN'?total:0); 
         }else{
