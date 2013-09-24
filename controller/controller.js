@@ -47,26 +47,26 @@ var app = {
 
     scan: function() {
         if(window.usuario.evento.eventoActivo){
-            // var scanner = cordova.require("cordova/plugin/BarcodeScanner");
-            // scanner.scan(
-            //     function (result) {
-            //         document.getElementById("precioReferencia").innerHTML = 0;
-            //         $('#formLibroNuevo')[0].reset();
-            //         if(result.text.toString().trim().length >=1){
-            //             app.buscarLibro(result.text);
-            //         }else{
-            //             $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
-            //         }                
-            //     }, 
-            //     function (error) {
-            //         $('#popupDialog').find('h1').text('Advertencia');
-            //         $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
-            //         $('#popupDialog').popup().popup('open');
-            //     }
-            // );
-            document.getElementById("precioReferencia").innerHTML = 0;
-            $('#formLibroNuevo')[0].reset();
-            app.buscarLibro(9789568410575);
+            var scanner = cordova.require("cordova/plugin/BarcodeScanner");
+            scanner.scan(
+                function (result) {
+                    document.getElementById("precioReferencia").innerHTML = 0;
+                    $('#formLibroNuevo')[0].reset();
+                    if(result.text.toString().trim().length >=1){
+                        app.buscarLibro(result.text);
+                    }else{
+                        $.mobile.changePage('#newSolicitudPag',{transition:"slide"});
+                    }                
+                }, 
+                function (error) {
+                    $('#popupDialog').find('h1').text('Advertencia');
+                    $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
+                    $('#popupDialog').popup().popup('open');
+                }
+            );
+            // document.getElementById("precioReferencia").innerHTML = 0;
+            // $('#formLibroNuevo')[0].reset();
+            // app.buscarLibro(9789568410575);
         }else{
             $('#popupDialog').find('h1').text('Advertencia');
             $('#popupDialog').find('h3').text('No hay ningún evento activo para su biblioteca.');
