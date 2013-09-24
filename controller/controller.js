@@ -60,7 +60,7 @@ var app = {
                 }, 
                 function (error) {
                     $('#popupDialog').find('h1').text('Advertencia');
-                    $('#popupDialog').find('h3').text('Error al escanear el Libro: ' + error);
+                    $('#popupDialog').find('h3').text('No se pudo establecer conexión con el servidor central, por favor, inténtelo en unos minutos más.');
                     $('#popupDialog').popup().popup('open');
                 }
             );
@@ -385,15 +385,17 @@ var app = {
                         $('#titulo').val(a.titulo);
                         $('#autor').val(a.autor);
                         $('#titulo').focus();
+                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
                     }else{
                         $.mobile.hidePageLoadingMsg();
+                        $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
                         $('#popupDialog').find('h1').text('Advertencia');
                         $('#popupDialog').find('h3').text(data.model.error+'\nPor favor ingreselo manualmente.');
                         $('#popupDialog').popup().popup('open');
                         $('#isbn').val(codigoIsbn);
                         $('#isbn').focus();
                     }
-                    $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
+                    // $.mobile.changePage( '#newSolicitudPag', { transition: "slide"} );
                 }                
             }
         });

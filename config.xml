@@ -15,6 +15,10 @@
 
     <gap:platform name="ios" />
     <gap:platform name="android" />
+    <gap:platform name="webos" />
+    <gap:platform name="symbian" />
+    <gap:platform name="blackberry" />
+    <gap:platform name="winphone" />
 
     <gap:plugin name="com.phonegap.plugins.barcodescanner" />
     <!--
