@@ -35,7 +35,7 @@
     <preference name="target-device"    value="universal" />
     <preference name="fullscreen"       value="true" />
     <preference name="webviewbounce"    value="true" />
-    <preference name="android-minSdkVersion" value="7" />
+    <preference name="android-minSdkVersion" value="5" />
 
     <icon src="res/icon/android/icon-36-ldpi.png"   gap:platform="android"    gap:density="ldpi" />
     <icon src="res/icon/android/icon-48-mdpi.png"   gap:platform="android"    gap:density="mdpi" />
